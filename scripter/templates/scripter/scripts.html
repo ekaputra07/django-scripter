@@ -1,0 +1,5 @@
+{% for js in javascripts %}<script type="text/javascript" src="{{STATIC_URL}}{{js}}"></script>
+{% endfor %}
+{% for js in inline_javascripts %}{{js|safe}}
+{% endfor %}
+
