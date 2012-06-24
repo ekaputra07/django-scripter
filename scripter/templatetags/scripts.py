@@ -1,5 +1,5 @@
 from django import template
-from django.conf import settings
+from scripter.conf import settings
 from scripter.utils import get_required_scripts
 from scripter import scripts as scripts_reg
 
@@ -8,7 +8,7 @@ register = template.Library()
 
 # Usage: {% scripter_css "reset;960gs==12cols" %}
 @register.inclusion_tag('scripter/styles.html')
-def scripter_css(default_css=None):
+def head_css(default_css=None):
     css_list = []
     css_inline_list = []
 
@@ -25,9 +25,10 @@ def scripter_css(default_css=None):
         if css.get('require', None):
             for req_css in css['require']:
                 csses = get_required_scripts('css', req_css)
-                for c in csses:
-                    if c not in css_list:
-                        css_list.append(c)
+                if csses:
+                    for c in csses:
+                        if c not in css_list:
+                            css_list.append(c)
 
         if css['type'] == 'inline':
             css_inline_list.append(css['css'])
@@ -47,7 +48,7 @@ def scripter_css(default_css=None):
 
 # Usage: {% scripter_js "jquery==1.7.2" %}
 @register.inclusion_tag('scripter/scripts.html')
-def scripter_js(default_js=None):
+def head_js(default_js=None):
     js_list = []
     js_inline_list = []
 
@@ -64,9 +65,10 @@ def scripter_js(default_js=None):
         if js.get('require', None):
             for req_script in js['require']:
                 scripts = get_required_scripts('js', req_script)
-                for script in scripts:
-                    if script not in js_list:
-                        js_list.append(script)
+                if scripts:
+                    for script in scripts:
+                        if script not in js_list:
+                            js_list.append(script)
 
         if js['type'] == 'inline':
             js_inline_list.append(js['scripts'])
@@ -82,3 +84,5 @@ def scripter_js(default_js=None):
         'javascripts': js_list,
         'inline_javascripts': js_inline_list,
     }
+
+

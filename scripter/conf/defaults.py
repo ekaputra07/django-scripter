@@ -1,3 +1,4 @@
+from django.conf import settings
 
 # Javascript library that available by default
 # Format: ('libname', [('lib. url', 'ver')])
@@ -17,6 +18,8 @@ SCRIPTER_CSS = (
 
     ('960gs', [
                ('scripter/css/960gs/960_12_col.css', '12cols'),
-               ('scripter/css/960gs/960_16_col.css', '16cols')
+               ('scripter/css/960gs/960_16_col.css', '16cols'),
+               ('scripter/css/960gs/960_24_col.css', '24cols')
               ]),
 )
+

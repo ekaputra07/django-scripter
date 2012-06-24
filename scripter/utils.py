@@ -1,16 +1,4 @@
-from django.conf import settings
-
-from scripter.settings import *
-try:
-    SCRIPTER_CSS = settings.SCRIPTER_CSS
-except AttributeError:
-    pass
-
-try:
-    SCRIPTER_JS = settings.SCRIPTER_JS
-except AttributeError:
-    pass
-
+from scripter.conf import settings, defaults
 
 class ScriptRegistry(object):
     """ Script registry, holds a record of registered scripts """
@@ -19,17 +7,17 @@ class ScriptRegistry(object):
         self.js_registry = []
         self.css_registry = []
 
-    def include_js(self, script, require=None):         
+    def include_head_js(self, script, require=None):         
         self.js_registry.append({'type': 'source', 'scripts': script, 'require': require})
 
-    def print_js(self, script, require=None):         
+    def print_head_js(self, script, require=None):         
         self.js_registry.append({'type': 'inline', 'scripts': script, 'require': require})
 
 
-    def include_css(self, css, require=None):         
+    def include_head_css(self, css, require=None):         
         self.css_registry.append({'type': 'source', 'css': css, 'require': require})
 
-    def print_css(self, css, require=None):         
+    def print_head_css(self, css, require=None):         
         self.css_registry.append({'type': 'inline', 'css': css, 'require': require})
 
 scripts = ScriptRegistry()
@@ -39,9 +27,9 @@ def get_all_script(script_type, name):
     """ Return all version in scripts bundle (if available) """
     
     if script_type == 'css':
-        source = SCRIPTER_CSS
+        source = settings.SCRIPTER_CSS
     else:
-        source = SCRIPTER_JS
+        source = settings.SCRIPTER_JS
 
     for i in source:
         if i[0] == name:
@@ -55,9 +43,9 @@ def get_script(script_type, name, version):
     """ return specific script based on its name and version (if available) """
 
     if script_type == 'css':
-        source = SCRIPTER_CSS
+        source = settings.SCRIPTER_CSS
     else:
-        source = SCRIPTER_JS
+        source = settings.SCRIPTER_JS
 
     for i in source:
         if i[0] == name:
